@@ -1,0 +1,47 @@
+\documentclass[11pt, letterpaper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+% Title Formatting
+\title{\textbf{Project Proposal}}
+\author{Kerby Liao, Austin Child, Brendan Wagner}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem Overview \& Motivation}
+There are now electric vehicles (EVs) that have ``bidirectional charging'' capabilities. This means that when your car's battery is full in your driveway, you can tell it to pump energy back into the electric grid, effectively selling the power back to the power company. This is particularly interesting because the price of power can fluctuate tremendously in a 24-hour period (6:00pm power is about 4x more expensive than 3:00am power). This sets up an interesting optimization problem where we can buy power cheap and sell it during a more expensive time of day, while making sure that the car is fully charged (or close enough) by the time the morning commute comes around.
+
+\section{Mathematical Formulation}
+
+\subsection{State and Control Variables}
+\begin{itemize}
+
+    \item \textbf{State}: The car's battery level or state $x(t)$ measured in kilowatt hours
+    \item \textbf{Control}: The charging power, $u(t) = \dot{x}(t)$. This will be a piecewise functional to exhibit a charging, steady, or discharging state.
+    \item \textbf{Cost}: The cost of power, $c(t)$, will be based on real-life data of fluctuating costs of power.
+\end{itemize}
+
+\subsection{System Dynamics and Boundary Conditions}
+    By 7:00am, have the car's battery be full. If this doesn't contrain the problem enough, we will consider lowering the threshold to 85\% to try to make money in the night with the last 15\%.
+
+\subsection{Objective Functional}
+    \[ \int_{t_{evening}}^{t_{morning}} c(t) u(t) \; dt \]
+    Where $c(t)$ is the cost of power given the time of day, and $u(t)$ is our control.
+
+    If time permits, we wish to add a ``battery health'' tax to the integrand, which would be the monetary worth of the damage caused to the battery by constant charging and deploying.
+
+\section{Optimal Control Methodology}
+    We will use Pontryagin's Minimum Principle to try to get an analytic solution. We will also likely use SciPy (either solve ivp or something else) to attempt a numerical solution. If neither of those solutions work, we may allow $u$ to be a continuous function and try again.
+    
+
+\end{document}
